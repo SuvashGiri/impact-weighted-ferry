@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Impact-Weighted Ferry</title>
+<meta name="description" content="An electric ferry saves its owner money. It saves the rest of us more. Independent project by Suvash Giri, built with an AI assistant from public sources. Not affiliated with or endorsed by Summa Equity, IFVI or any ferry operator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#faf8f3;--ink:#1a1a1a;--soft:#5f5f5a;--rule:#d9d5cc;--own:#2b5d8a;--soc:#2e7d4f;--sup:#a8722a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#141412;--ink:#ecebe6;--soft:#a3a29b;--rule:#33322e;--own:#79a9d6;--soc:#6cc492;--sup:#d9a55a}}
+:root[data-theme="dark"]{--paper:#141412;--ink:#ecebe6;--soft:#a3a29b;--rule:#33322e;--own:#79a9d6;--soc:#6cc492;--sup:#d9a55a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:19px;line-height:1.55}
+main{max-width:680px;margin:0 auto;padding:40px 16px 60px}
+.kick{font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--soc);margin-bottom:10px}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.1;margin:0 0 14px;font-weight:700;letter-spacing:-.01em}
+.lede{font-size:21px;color:var(--soft);margin:0 0 18px}
+.art{margin:4px 0 28px;color:var(--ink);max-width:560px}
+h2{font-size:24px;line-height:1.25;margin:44px 0 10px}
+p{margin:0 0 14px}
+.sans{font-family:Inter,system-ui,sans-serif}
+hr{border:0;border-top:1px solid var(--rule);margin:36px 0}
+.bars{margin:22px 0 8px}
+.row{margin-bottom:16px}
+.row .t{font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--soft);display:flex;justify-content:space-between;gap:12px}
+.row .t b{color:var(--ink);font-weight:600}
+.row .b{height:30px;border-radius:3px;margin-top:6px;transition:width .25s}
+.big{font-family:Inter,system-ui,sans-serif;font-size:15px;color:var(--soft)}
+.ask{font-family:Inter,system-ui,sans-serif;margin:26px 0 6px}
+.ask .q{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts button{text-align:left;border:1px solid var(--rule);background:transparent;color:var(--ink);padding:12px 14px;border-radius:6px;cursor:pointer;font:inherit;font-size:15px;line-height:1.35}
+.opts button b{display:block;font-size:22px;margin-bottom:2px}
+.opts button.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.answer{font-size:21px;margin:22px 0 0;padding-left:14px;border-left:3px solid var(--soc)}
+.split{display:flex;height:34px;border-radius:3px;overflow:hidden;margin:16px 0 12px}
+.split div{transition:width .25s}
+.key{font-family:Inter,system-ui,sans-serif;font-size:15px;display:grid;gap:8px}
+.key span{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:8px;vertical-align:-1px}
+.note{font-family:Inter,system-ui,sans-serif;font-size:13px;color:var(--soft)}
+details{font-family:Inter,system-ui,sans-serif;font-size:14px;color:var(--soft);margin-top:12px}
+summary{cursor:pointer;color:var(--ink);font-weight:600}
+.ctl{margin:14px 0}
+.ctl label{display:flex;justify-content:space-between;color:var(--ink);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--soc)}
+ul{padding-left:18px} li{margin:6px 0}
+a{color:var(--soc)}
+.theme{float:right;margin-top:-4px;font:500 12px Inter,system-ui,sans-serif;background:transparent;color:var(--soft);border:1px solid var(--rule);border-radius:4px;padding:4px 8px;cursor:pointer}
+@media (max-width:560px){.opts{grid-template-columns:1fr} body{font-size:18px}}
+</style>
+</head>
+<body>
+<main>
+  <button class="theme" id="tt">Light / dark</button>
+  <div class="kick">NORWAY · ELECTRIC FERRIES</div>
+  <h1>An electric ferry saves its owner money. It saves the rest of us more.</h1>
+  <p class="lede">What one battery ferry is worth in a year, when you also count the pollution it avoids.</p>
+  <figure class="art" aria-hidden="true">
+  <svg viewBox="0 0 640 140" width="100%" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 112 H104"/>
+    <path d="M36 112 V124 M92 112 V124"/>
+    <path d="M64 112 V46"/>
+    <path d="M64 46 H134 V100" stroke="var(--soc)"/>
+    <path d="M130 100 h8" stroke="var(--soc)"/>
+    <path d="M70 60 l-4 8 h6 l-4 8" stroke="var(--soc)"/>
+    <path d="M122 104 L142 120 H512 L532 104 Z"/>
+    <path d="M178 104 V84 Q178 80 182 80 H472 Q476 80 476 84 V104"/>
+    <path d="M194 92 H460" stroke-dasharray="12 7"/>
+    <path d="M296 80 V66 H358 V80"/>
+    <path d="M304 73 H350" stroke-dasharray="6 5"/>
+    <path d="M327 66 V56"/>
+    <path d="M150 128 q14 -4 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" stroke="var(--soft)" stroke-width="1"/>
+    <path d="M200 136 q14 -4 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" stroke="var(--rule)" stroke-width="1"/>
+  </svg>
+</figure>
+
+
+  <p>Norway runs more than a hundred car ferries. When one of them switches from diesel to batteries, the owner pays more up front but saves on fuel every year. That shows up in the accounts.</p>
+  <p>What does not show up is the diesel that is never burned: about <b id="tCo2">3,300</b> tonnes of CO₂ a year for a typical ferry.</p>
+
+  <div class="bars" aria-live="polite">
+    <div class="row"><div class="t"><span>What the owner gains per year</span><b id="vOwn">–</b></div><div class="b" id="bOwn" style="background:var(--own)"></div></div>
+    <div class="row"><div class="t"><span>What the climate gains per year</span><b id="vSoc">–</b></div><div class="b" id="bSoc" style="background:var(--soc)"></div></div>
+  </div>
+
+  <div class="ask">
+    <div class="q">How much is one tonne of CO₂ worth?</div>
+    <div class="opts" id="opts">
+      <button data-v="75"><b>€75</b>What polluters pay in Europe today (EU carbon market)</button>
+      <button data-v="218" class="on"><b>€218</b>What the damage costs society (IFVI estimate)</button>
+    </div>
+  </div>
+  <p class="answer" id="answer">–</p>
+
+  <h2>Who gets the money?</h2>
+  <p>Over a ferry's 30-year life, the value lands in three places. Only two of them get paid.</p>
+  <div class="split" id="split"></div>
+  <div class="key">
+    <div><span style="background:var(--sup)"></span><b id="kSup">–</b> to shipyards, designers and battery makers, paid once</div>
+    <div><span style="background:var(--own)"></span><b id="kOwn">–</b> to the ferry owner in lower running costs</div>
+    <div><span style="background:var(--soc)"></span><b id="kSoc">–</b> to society in avoided climate damage. No one books it.</div>
+  </div>
+  <p class="note" style="margin-top:10px">Across the 84 ferries in the study, the suppliers' share alone is about €384 million.</p>
+
+  <hr>
+  <h2>Why investors should care</h2>
+  <p>Some investors already put a price on impact. Summa Equity, for example, converts the climate effect of its companies into euros, using the same IFVI method as above.</p>
+  <p>Seen that way, the companies that design, build and electrify ferries are not just suppliers. They sit where much of the value is created.</p>
+
+  <details>
+    <summary>Change the assumptions</summary>
+    <div class="ctl"><label>Carbon price <span id="lP"></span></label><input type="range" id="price" min="0" max="300" step="1" value="218"></div>
+    <div class="ctl"><label>Diesel replaced per year <span id="lD"></span></label><input type="range" id="diesel" min="100" max="3000" step="10" value="1060"></div>
+    <div class="ctl"><label>Carbon in the electricity <span id="lG"></span></label><input type="range" id="grid" min="0" max="500" step="5" value="20"><div class="note">Norway ≈ 20 g/kWh, EU average ≈ 250 g/kWh (rough).</div></div>
+    <div class="ctl"><label>Extra cost of going electric <span id="lC"></span></label><input type="range" id="capex" min="0" max="15" step="0.01" value="4.57"></div>
+    <div class="ctl"><label>Running costs saved per year <span id="lO"></span></label><input type="range" id="opex" min="0" max="3" step="0.02" value="0.92"></div>
+  </details>
+
+  <details>
+    <summary>How this is calculated, and sources</summary>
+    <ul>
+      <li><b>Owner's gain</b> = running costs saved − extra investment spread over 30 years at 7.1% (as in the study).</li>
+      <li><b>Climate gain</b> = (diesel × 3.206 t CO₂ per tonne − CO₂ from the electricity used) × carbon price. Climate only; jobs and health are not counted.</li>
+      <li>Typical ferry = averages for 84 battery ferries in Siemens/Bellona, <a href="https://assets.new.siemens.com/siemens/assets/api/uuid:232f1851-d255-4b77-bb45-39afb13be35f/study-seven-out-of-ten-norway-e.pdf">"Seven out of ten Norwegian ferries…"</a>: 89,000 t diesel and 275,000 t CO₂ saved a year, €384m extra investment, €77m lower running costs a year, 237 GWh electricity. The study is older; prices have changed since.</li>
+      <li>€218 ≈ the IFVI/VBA value of $236 per tonne for 2023 (<a href="https://incp.org.co/publicaciones/infoincp-publicaciones/estandares-internacionales/2024/10/contabilidad-del-carbono-236-por-tonelada-de-co2-en-2023/">summary</a>). €75 is an approximate recent EU carbon price, not a quote.</li>
+      <li>Summa's approach: <a href="https://summaequity.com/measuring-what-matters-how-impact-accounting-redefines-sustainability-measurement/">impact accounting</a>.</li>
+      <li>Illustrative averages, not any operator's accounts. The 30-year split is undiscounted, for scale only.</li>
+    </ul>
+  </details>
+
+  <p class="note" style="margin-top:28px">Independent project by Suvash Giri, built with an AI assistant from public sources. Not affiliated with or endorsed by Summa Equity, IFVI or any ferry operator.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const R=0.071,N=30,ANN=R/(1-Math.pow(1+R,-N)),FD=3.206,GWH=237/84,D0=1060;
+const eur=v=>{const a=Math.abs(v),s=v<0?'−':'';return a>=1e6?s+'€'+(a/1e6).toFixed(a>=1e8?0:1)+' million':s+'€'+Math.round(a/1e3).toLocaleString('en')+',000'};
+function run(){
+  const price=+$('price').value,diesel=+$('diesel').value,grid=+$('grid').value,capex=+$('capex').value*1e6,opex=+$('opex').value*1e6;
+  const co2=diesel*FD-GWH*diesel/D0*grid, own=opex-capex*ANN, soc=co2*price, mx=Math.max(Math.abs(own),Math.abs(soc),1);
+  $('tCo2').textContent=(Math.round(co2/100)*100).toLocaleString('en');
+  $('vOwn').textContent=eur(own); $('vSoc').textContent=eur(soc);
+  $('bOwn').style.width=Math.max(1,Math.abs(own)/mx*100)+'%'; $('bSoc').style.width=Math.max(1,Math.abs(soc)/mx*100)+'%';
+  document.querySelectorAll('#opts button').forEach(b=>b.classList.toggle('on',+b.dataset.v===price));
+  const r=own>0?soc/own:0;
+  $('answer').innerHTML= own>0
+    ? `At €${price} a tonne, the avoided pollution is worth <b>${eur(soc)}</b> a year, ${r>=1?'<b>'+r.toFixed(1)+' times</b> more than':'about '+Math.round(r*100)+'% of'} what the owner gains.`
+    : `At these assumptions the owner loses money, but the avoided pollution is still worth <b>${eur(soc)}</b> a year.`;
+  const sup=capex,o=opex*N,s=Math.max(0,soc)*N,t=sup+o+s||1;
+  $('split').innerHTML=`<div style="width:${sup/t*100}%;background:var(--sup)"></div><div style="width:${o/t*100}%;background:var(--own)"></div><div style="width:${s/t*100}%;background:var(--soc)"></div>`;
+  $('kSup').textContent=eur(sup); $('kOwn').textContent=eur(o); $('kSoc').textContent=eur(s);
+  $('lP').textContent='€'+price+' per tonne'; $('lD').textContent=diesel.toLocaleString('en')+' tonnes'; $('lG').textContent=grid+' g/kWh';
+  $('lC').textContent=eur(capex); $('lO').textContent=eur(opex);
+}
+document.querySelectorAll('#opts button').forEach(b=>b.onclick=()=>{$('price').value=b.dataset.v;run()});
+['price','diesel','grid','capex','opex'].forEach(i=>$(i).addEventListener('input',run));
+$('tt').onclick=()=>{const r=document.documentElement,d=r.getAttribute('data-theme');const dark=d?d==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.setAttribute('data-theme',dark?'light':'dark')};
+run();
+</script>
+</body>
+</html>
